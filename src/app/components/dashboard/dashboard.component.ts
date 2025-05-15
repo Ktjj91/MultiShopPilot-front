@@ -8,14 +8,10 @@ import {authInterceptor} from '../../interceptors/auth/auth.interceptor';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent  {
   private readonly authService:AuthService = inject(AuthService);
 
-  ngOnInit(): void {
-      this.authService.checkAuth().subscribe(auth => {
-        console.log(auth);
-      })
-  }
+
 
 
 

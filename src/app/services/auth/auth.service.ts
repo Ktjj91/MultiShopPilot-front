@@ -1,4 +1,4 @@
-import {inject, Injectable, signal, WritableSignal} from '@angular/core';
+import {computed, inject, Injectable, signal, WritableSignal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError, of, tap} from 'rxjs';
 
@@ -8,7 +8,8 @@ import {catchError, of, tap} from 'rxjs';
 export class AuthService {
   private readonly API_URL = "/api/login";
   httpClient:HttpClient = inject(HttpClient);
-  loggedIn:WritableSignal<boolean| null> = signal(null)
+  loggedIn:WritableSignal<boolean| null> = signal(null);
+  readonly isAuthenticated = computed(() => this.loggedIn() === true);
 
   login(credentials:{email:string,password:string}) {
     return this.httpClient.post(this.API_URL,credentials,{withCredentials:true})
@@ -24,4 +25,9 @@ export class AuthService {
     )
   }
 
+  logout(){
+    return this.httpClient.post("/api/logout",{},{withCredentials:true}).pipe(
+      tap(() => this.loggedIn.set(false))
+    )
+  }
 }
