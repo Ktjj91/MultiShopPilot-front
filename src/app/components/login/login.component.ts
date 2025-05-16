@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {Form, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../services/auth/auth.service';
 import {Router} from '@angular/router';
 
@@ -26,24 +26,26 @@ export class LoginComponent {
     return this.form.get('password') as FormControl;
   }
 
-   onSubmit()
-  {
-    if(this.form.invalid){
-      return;
-    }
+   onSubmit(){
+   if(this.form.invalid){
+     return;
+   }
+   const credentials =  {
+     email:this.email.value,
+     password: this.password.value,
+   }
 
-    const credentials = {
-      email: this.email.value,
-      password: this.password.value
-    }
-    this.authService.login(credentials).subscribe(token => {
-      console.log(token);
-      if(token){
-        this.router.navigate(['/dashboard']).then();
-      } else {
-        alert('Incorrect credentials');
-      }
-    })
-
-
-  }}
+   this.authService.login(credentials).subscribe({
+     next:() => {
+       this.authService.login(this.form.value).subscribe(() => {
+         if(this.authService.isAuthenticated()){
+           this.router.navigate(['/dashboard']);
+         }
+       })
+     },
+     error:(error) => {
+       console.log(error.message);
+     }
+   })
+   }
+}

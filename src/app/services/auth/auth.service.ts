@@ -17,9 +17,15 @@ export class AuthService {
 
   checkAuth(){
     return this.httpClient.get<{email:string;roles:string[]}>("/api/me").pipe(
-      tap(() =>this.loggedIn.set(true)),
+      tap(() => {
+
+        this.loggedIn.set(true)
+        console.log('checkAuth OK → loggedIn =', this.loggedIn());
+
+      }),
       catchError((err) => {
         this.loggedIn.set(false)
+        console.warn('checkAuth FAILED → loggedIn = false');
         return of(null);
       })
     )

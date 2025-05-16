@@ -1,7 +1,18 @@
-<form (ngSubmit)="onSubmit()" [formGroup]="form">
-  <label for="email">email</label>
-  <input id="email" formControlName="email"  type="email">
-  <label for="password">Mot de passe</label>
-  <input id="password" formControlName="password"  type="password">
-  <button [disabled]="this.form.invalid">Connexion</button>
-</form>
+<section class=" h-min flex mt-5 justify-center">
+  <div class="card w-full max-w-xl bg-base-100 shadow-md">
+    <div class="card-body">
+      <form class="flex flex-col space-y-3 items-center w-full" (ngSubmit)="onSubmit()" [formGroup]="form">
+        <h1 class="card-title text-xl">Connexion</h1>
+        <label class="form-control w-full max-w-md">
+          <span class="label-text">Email</span>
+          <input class="input input-bordered w-full" id="email" formControlName="email" type="email">
+        </label>
+        <label class="form-control w-full max-w-md">
+          <span class="label-text">Mot de passe</span>
+          <input class="input input-bordered w-full" id="password" formControlName="password" type="password">
+        </label>
+        <button class="btn btn-secondary w-full max-w-md" [disabled]="form.invalid">Connexion</button>
+      </form>
+    </div>
+  </div>
+</section>
